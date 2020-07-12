@@ -1,8 +1,16 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
 
-Vue.config.productionTip = false
+import router from './router'
+import Vue from 'vue';
+import Antd from 'ant-design-vue';
+import App from './App';
+import 'ant-design-vue/dist/antd.css';
+import VCharts from 'v-charts'
+
+Vue.config.productionTip = false;
+
+Vue.use(Antd);
+Vue.use(VCharts);
+
 
 new Vue({
   router,

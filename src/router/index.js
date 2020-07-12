@@ -6,24 +6,74 @@ Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+      path: '/',
+      component: () => import('../views/Layout.vue'),
+      children: [
+        {
+          path: '/warnlist',
+          component: () => import('../views/WarnList.vue'),
+          meta: {
+            module: '快抢业务',
+            title: '告警配置页',
+          }
+        },
+        {
+          path: '/analysis',
+          component: () => import('../views/Analysis.vue'),
+          meta: {
+            module: '快抢业务',
+            title: '图表分析页',
+          }
+        },
+        {
+          path: '/testcases',
+          component: () => import('../views/TestCases.vue'),
+          meta: {
+            module: '快抢业务',
+            title: '用例管理页',
+          }
+        },
+        {
+          path: '/rulecheck',
+          component: () => import('../views/RuleCheck.vue'),
+          meta: {
+            module: '快抢业务',
+            title: '用例规则页',
+          }
+        },
+      ]
+    },
+    {
+      path: '/login',
+      component: () => import('../views/Login.vue'),
+      meta:{
+        module: '接口测试平台',
+        title: '登录页'
+      }
+    },
+    {
+      path: '*',
+      component: () => import('../views/404.vue'),
+      meta:{
+        module: '接口测试平台',
+        title: '404'
+      }
+    },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.meta.module)
+  {
+    document.title = to.meta.module + '-' + to.meta.title
+  }
+  next()
+
 })
 
 export default router
